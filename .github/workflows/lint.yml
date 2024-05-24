@@ -57,4 +57,4 @@ jobs:
           version: latest
           skip-pkg-cache: true
           args: --timeout=99m
-          github-token: ${{ secrets.github_token }}
+          github-token: ${{ secrets.GH_TOKEN }}
