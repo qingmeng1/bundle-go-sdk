@@ -54,6 +54,25 @@ func main() {
 
 	fmt.Println("latest block number: ", latestBlock.Number(), "nonce: ", nonce)
 
+	// bundle price
+	/*
+		Unlike sorting in the tx pool based on tx gas prices, the acceptance of a bundle is determined by its overall gas price,
+		not the gas price of a single transaction. If the overall bundle price is too low, it will be rejected by the network.
+		The rules for calculating the bundle price are as follows:
+		bundlePrice = sum(gasFee of each transaction) / sum(gas used of each transaction)
+		Developers should ensure that the bundlePrice always exceeds the value returned by the eth_bundlePrice API endpoint.
+	*/
+	bundlePrice, err := bundleCli.BundlePrice(context.Background())
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println("bundle price: ", bundlePrice)
+
+	if bundlePrice == nil {
+		// set default
+		bundlePrice = big.NewInt(5e9)
+	}
+
 	bundle := types.SendBundleArgs{
 		Txs:               make([]hexutil.Bytes, 0),
 		MaxBlockNumber:    0,
@@ -67,7 +86,7 @@ func main() {
 			To:       &address,
 			Value:    big.NewInt(params.GWei),
 			Gas:      uint64(5000000),
-			GasPrice: big.NewInt(5e9),
+			GasPrice: bundlePrice,
 			Data:     nil,
 		}
 
@@ -99,13 +118,6 @@ func main() {
 	}
 	bundleJson, _ := jsoniter.Marshal(bundleQuery)
 	fmt.Println("bundle queried: ", string(bundleJson))
-
-	// bundle price
-	bundlePrice, err := bundleCli.BundlePrice(context.Background())
-	if err != nil {
-		panic(err)
-	}
-	fmt.Println("bundle price: ", bundlePrice)
 
 	// builders
 	builders, err := bundleCli.Builders(context.Background())
