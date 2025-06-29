@@ -1,4 +1,4 @@
-module github.com/node-real/bundle-go-sdk
+module github.com/qingmeng1/bundle-go-sdk
 
 go 1.21.6
 
