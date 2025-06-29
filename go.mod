@@ -103,7 +103,7 @@ require (
 	github.com/sirupsen/logrus v1.9.0 // indirect
 	github.com/status-im/keycard-go v0.2.0 // indirect
 	github.com/supranational/blst v0.3.11 // indirect
-	github.com/syndtr/goleveldb v1.0.1 // indirect
+	github.com/syndtr/goleveldb v1.0.0 // indirect
 	github.com/tendermint/go-amino v0.14.1 // indirect
 	github.com/tendermint/iavl v0.12.0 // indirect
 	github.com/tendermint/tendermint v0.31.15 // indirect
